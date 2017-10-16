@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin2">24dp</dimen>
+    <dimen name="activity_vertical_margin01">8dp</dimen>
+    <dimen name="activity_vertical_margin3">36dp</dimen>
+    <!-- END of Default screen margins, per the Android Design guidelines. -->
+
+    <!-- Application specific view dimensions -->
+    <dimen name="search_box_padding">10dp</dimen>
+    <dimen name="card_view_corner_radius">3dp</dimen>
+    <dimen name="card_view_elevation">5dp</dimen>
+    <dimen name="search_item_image_padding">7dp</dimen>
+    <dimen name="search_item_padding">10dp</dimen>
+    <dimen name="search_item_image_width_height">80dp</dimen>
+    <dimen name="search_item_content_margin_end">80dp</dimen>
+    <dimen name="quick_search_layout_padding">10dp</dimen>
+    <dimen name="quick_search_layout_height">100dp</dimen>
+    <dimen name="quick_search_title_height">20dp</dimen>
+    <dimen name="quick_search_element_vertical_offset">15dp</dimen>
+    <dimen name="search_pregress_width_height">24dp</dimen>
+    <dimen name="drawable_padding">5dp</dimen>
+    <dimen name="search_item_image_margin">5dp</dimen>
+    <dimen name="place_details_image_height">250dp</dimen>
+    <dimen name="place_details_basic_height">80dp</dimen>
+    <dimen name="place_details_basic_padding">15dp</dimen>
+    <dimen name="place_rating_margin_top">3dp</dimen>
+    <dimen name="place_details_drawable_padding">10dp</dimen>
+    <dimen name="place_details_infor_margin_bot">20dp</dimen>
+    <dimen name="place_details_google_logo_margin_top">10dp</dimen>
+    <dimen name="place_details_basic_fab_offset">-25dp</dimen>
+    <dimen name="place_detail_google_logo_margin_bot">5dp</dimen>
+    <dimen name="place_details_star_rating_margin_left">20dp</dimen>
+    <!-- END of Application specific view dimensions -->
+</resources>

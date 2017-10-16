@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Around Me</string>
+    <string name="permission_request_dialog_title">Permission required</string>
+    <string name="permission_action_enable">Enable</string>
+    <string name="permission_action_dismiss">Dismiss</string>
+    <string name="google_map_state_instance">googleMapSavedStateInstance</string>
+    <string name="permission_location_rationale">Enabling location will help us to locate your position</string>
+    <string name="location_permission_denied_forever_rationale">Please turn on location permission from settings.</string>
+    <string name="location_permission_denied_rationale">Location permission is not enabled</string>
+    <string name="location_settings_rationale">To continue, enable location settings.</string>
+    <string name="snackbar_action_open_settings">Open Settings</string>
+    <string name="snackbar_action_enable">Enable</string>
+    <string name="res_package">package</string>
+    <string name="hint_search_box">Search here</string>
+    <string name="acs_content_description_search_item_image">Location image</string>
+    <string name="quick_search_cinema_text">Cinema</string>
+    <string name="quick_search_restaurant_text">Restaurant</string>
+    <string name="quick_search_atm_text">ATM</string>
+    <string name="quick_search_shopping_text">Shopping</string>
+    <string name="quick_search_title">Quick Search</string>
+
+    <string name="places_api_type_atm">atm</string>
+    <string name="places_api_type_movie_theater">movie_theater</string>
+    <string name="places_api_type_restaurant">restaurant</string>
+    <string name="places_api_shopping_mall">shopping_mall</string>
+    <string name="point_open_now_text">Open Now</string>
+    <string name="place_name_hint">Place Name</string>
+    <string name="place_rating_hint">3.5</string>
+    <string name="place_details_address_hint">25th Street, Brooklyn, USA</string>
+    <string name="place_details_phone">(02) 089 9876</string>
+    <string name="powered_by">Powered by</string>
+    <string name="copy_to_clip_board">Copied to Clipboard</string>
+    <string name="data_not_available">Not available</string>
+    <string name="error_msg_call_not_supported">Calling is not supported in this device</string>
+    <string name="error_msg_map_not_supported">Google maps are not supported in this device</string>
+    <string name="direction_opr_nt_sptd">This operation is not supported</string>
+
+</resources>

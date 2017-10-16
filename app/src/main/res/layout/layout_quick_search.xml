@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quick_search_cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:elevation="@dimen/card_view_elevation"
+    app:cardCornerRadius="@dimen/card_view_corner_radius"
+    android:background="@color/colorWhite"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_below="@+id/quick_search_title_tv"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/quick_search_layout_height"
+            android:gravity="center_vertical"
+            android:padding="@dimen/quick_search_layout_padding">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/quick_search_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/quick_search_title_height"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/quick_search_title"/>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/quick_search_title_tv"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/quick_search_cinema_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:fontFamily="sans-serif-light"
+                    android:drawableTop="@drawable/drawable_cinema"
+                    android:text="@string/quick_search_cinema_text"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/quick_search_atm_tv"
+                android:layout_marginTop="@dimen/quick_search_element_vertical_offset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:fontFamily="sans-serif-light"
+                android:drawableTop="@drawable/drawable_atm"
+                android:text="@string/quick_search_atm_text"/>
+
+            <TextView
+                android:id="@+id/quick_search_restaurant_tv"
+                android:layout_marginTop="@dimen/quick_search_element_vertical_offset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:fontFamily="sans-serif-light"
+                android:drawableTop="@drawable/drawable_restaurant"
+                android:text="@string/quick_search_restaurant_text"/>
+
+            <TextView
+                android:id="@+id/quick_search_shopping_tv"
+                android:layout_marginTop="@dimen/quick_search_element_vertical_offset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:fontFamily="sans-serif-light"
+                android:drawableTop="@drawable/drawable_shopping"
+                android:text="@string/quick_search_shopping_text"/>
+
+        </LinearLayout>
+
+</android.support.v7.widget.CardView>

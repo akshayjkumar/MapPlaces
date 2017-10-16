@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/places_list_fl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="100dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Layout include for Quick Search buttons -->
+        <include layout="@layout/layout_quick_search" android:id="@+id/quick_search_layout"/>
+        <!-- END of Layout include for Quick Search buttons -->
+
+        <!-- Recycler view for listing search results -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/places_list_rv"
+            android:overScrollMode="never"
+            android:layout_below="@+id/quick_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- END of Recycler view for listing search results -->
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/abcd"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+        android:id="@+id/place_details_parent_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/place_details_image_iv"
+            android:alpha="0"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/place_details_image_height"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:id="@+id/place_details_container_LL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/map_direction_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="top|end"
+                android:src="@drawable/ic_direciton" />
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/place_details_basic_fab_offset"
+                android:id="@+id/place_details_basic_rl"
+                android:layout_width="match_parent"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/place_details_basic_padding"
+                android:layout_height="@dimen/place_details_basic_height">
+
+                <TextView
+                    android:id="@+id/place_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="sans-serif-light"
+                    tools:text="@string/place_name_hint"/>
+
+                <TextView
+                    android:id="@+id/place_rating"
+                    android:layout_below="@+id/place_name_tv"
+                    android:layout_marginTop="@dimen/place_rating_margin_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="left|bottom"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="sans-serif-condensed"
+                    tools:text="@string/place_rating_hint"/>
+
+                <TextView
+                    android:id="@+id/place_rating_visual"
+                    android:layout_toEndOf="@+id/place_rating"
+                    android:layout_below="@+id/place_name_tv"
+                    android:layout_marginTop="@dimen/place_rating_margin_top"
+                    android:paddingTop="2dp"
+                    android:layout_marginLeft="@dimen/place_details_star_rating_margin_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:gravity="left|bottom"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@color/colorGolden"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/place_details_info_rl"
+                android:layout_below="@+id/place_details_basic_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                android:padding="@dimen/place_details_basic_padding">
+
+                <TextView
+                    android:id="@+id/place_address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/ic_place_address"
+                    android:drawablePadding="@dimen/place_details_drawable_padding"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@color/colorDarkGray"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="@dimen/place_details_infor_margin_bot"
+                    android:text="@string/data_not_available"
+                    tools:text="@string/place_details_address_hint"/>
+
+                <TextView
+                    android:id="@+id/place_phone_primary_tv"
+                    android:layout_below="@+id/place_address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/ic_place_phone"
+                    android:drawablePadding="@dimen/place_details_drawable_padding"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@color/colorDarkGray"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="@dimen/place_details_infor_margin_bot"
+                    android:text="@string/data_not_available"
+                    tools:text="@string/place_details_phone"/>
+
+                <TextView
+                    android:id="@+id/place_vicinity_tv"
+                    android:layout_below="@+id/place_phone_primary_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/ic_place_location"
+                    android:drawablePadding="@dimen/place_details_drawable_padding"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@color/colorDarkGray"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="@dimen/place_details_infor_margin_bot"
+                    android:text="@string/data_not_available"
+                    tools:text="@string/place_details_address_hint"/>
+
+            </RelativeLayout>
+
+        </LinearLayout
+>
+        <TextView
+            android:id="@+id/google_tv"
+            android:paddingBottom="@dimen/place_detail_google_logo_margin_bot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:drawableBottom="@drawable/ic_google_logo_grey"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textColor="@color/colorDarkGray"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/powered_by"/>
+    </RelativeLayout>
+
+</FrameLayout>

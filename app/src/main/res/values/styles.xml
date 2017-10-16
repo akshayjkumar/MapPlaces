@@ -1,0 +1,54 @@
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base">
+    </style>
+
+    <!-- This is the Base theme of this application. All Necessary material design styles should go here -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!-- END of the Base theme -->
+
+    <!--Theme applied for the splash screen-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/drawable_splash_bg</item>
+    </style>
+    <!--END of splash screen theme-->
+
+    <!-- Theme for Dialog -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- END of Theme for Dialog -->
+
+    <!-- Styles for ToolBar title text appearance -->
+    <style name="AppTheme.Toolbar.TextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+    <!-- END of Styles for ToolBar title text appearance -->
+
+    <!-- Style for Alert dialog -->
+    <style name="AppTheme.AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+    <!-- END of Style for Alert dialog -->
+
+    <!-- BottomSheet entry exit animation style -->
+    <style name="bottomsheet_entry_exit_slide_anim">
+        <item name="android:windowEnterAnimation">@anim/slide_up_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_to_bottom</item>
+    </style>
+    <!-- END of BottomSheet entry exit animation style -->
+
+    <!-- Styles for bottom sheet dialog -->
+    <style name="BottomDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <!-- END of Styles for bottom sheet dialog -->
+
+
+</resources>

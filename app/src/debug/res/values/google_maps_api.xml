@@ -1,0 +1,6 @@
+<resources>
+    <!-- This is an unrestricted key. This should contain DEBUG key -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyBrlKUayi9_LwuegcSlhRbLbW3Gc56QqBs
+    </string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/controls_fl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="100dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <android.support.v7.widget.CardView
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
+        app:cardElevation="@dimen/card_view_elevation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/search_box_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="@dimen/search_box_padding"
+                android:hint="@string/hint_search_box"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/colorDarkGray"
+                android:fontFamily="sans-serif-light"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="@dimen/search_box_padding"/>
+
+                <FrameLayout
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/clear_search_ib"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/search_box_padding"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_clear"/>
+
+                    <ProgressBar
+                        android:id="@+id/search_progress_bar"
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/search_pregress_width_height"
+                        android:layout_height="@dimen/search_pregress_width_height"
+                        android:indeterminate="true"
+                        android:visibility="invisible"/>
+
+                </FrameLayout>
+
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
