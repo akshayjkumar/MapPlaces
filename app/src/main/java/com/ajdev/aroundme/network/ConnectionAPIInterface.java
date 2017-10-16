@@ -40,6 +40,6 @@ public interface ConnectionAPIInterface {
     /** Get detailed information about a particular place from Place API **/
     @GET("maps/api/place/details/json")
     Observable<PlaceDetails> getPlaceDetails(
-            @Query("placeid") String type,
+            @Query("placeid") String placeID,
             @Query("key") String key);
 }

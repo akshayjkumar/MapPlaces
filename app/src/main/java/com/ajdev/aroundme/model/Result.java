@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Akshay.Jayakumar on 10/12/2017.
  *
  */
 
+@Getter
 public class Result extends RealmObject {
 
     @SerializedName("name")
@@ -33,59 +36,16 @@ public class Result extends RealmObject {
     @SerializedName("opening_hours")
     OpeningTime openingTime;
 
-    public RealmList<Photo> getPhotos() {
-        return photos;
-    }
+    public Result(){}
 
-    public void setPhotos(RealmList<Photo> photos) {
-        this.photos = photos;
-    }
-
-    public OpeningTime getOpeningTime() {
-        return openingTime;
-    }
-
-    public void setOpeningTime(OpeningTime openingTime) {
-        this.openingTime = openingTime;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Result(String name, String placeID, String vicinity,
+                  float rating, Geometry geometry, RealmList<Photo> photos, OpeningTime openingTime){
         this.name = name;
-    }
-
-    public String getVicinity() {
-        return vicinity;
-    }
-
-    public void setVicinity(String vicinity) {
-        this.vicinity = vicinity;
-    }
-
-    public Geometry getGeometry() {
-        return geometry;
-    }
-
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
-    }
-
-    public String getPlaceID() {
-        return placeID;
-    }
-
-    public void setPlaceID(String placeID) {
         this.placeID = placeID;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
+        this.vicinity = vicinity;
         this.rating = rating;
+        this.geometry = geometry;
+        this.photos = photos;
+        this.openingTime = openingTime;
     }
 }

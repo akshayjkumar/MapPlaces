@@ -72,7 +72,7 @@ public class NearByPlacesPresenter {
                      * drop the items that observables cannot consume
                      */
                     .onBackpressureDrop()
-                    .subscribeOn(Schedulers.newThread())
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<NearByPlaces>() {
                         @Override

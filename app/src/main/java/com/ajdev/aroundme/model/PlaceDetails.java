@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Akshay.Jayakumar on 10/12/2017.
@@ -13,16 +15,15 @@ import io.realm.RealmObject;
  * Realm object to persist detailed information about a place, location or a point.
  */
 
+@Getter
 public class PlaceDetails extends RealmObject implements Serializable{
 
     @SerializedName("result")
     PlaceResult result;
 
-    public PlaceResult getResult() {
-        return result;
-    }
+    public PlaceDetails(){}
 
-    public void setResults(PlaceResult result) {
+    public PlaceDetails(PlaceResult result){
         this.result = result;
     }
 }
