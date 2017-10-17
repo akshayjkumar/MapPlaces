@@ -63,7 +63,7 @@ public class NearByPlacesPresenter {
             viewWeakReference.get().toggleProgressBarVisibility(true);
     }
 
-    private void subscribeToNearByPlacesList(){
+    public void subscribeToNearByPlacesList(){
         if(nbpListSubscription == null || nbpListSubscription.isUnsubscribed()){
             nbpListSubscription = nearByPlacesDS.getNearByPlaceSubject()
                     /**
@@ -77,6 +77,7 @@ public class NearByPlacesPresenter {
                     .subscribe(new Action1<NearByPlaces>() {
                         @Override
                         public void call(NearByPlaces nearByPlaces) {
+
                             if(viewWeakReference != null && viewWeakReference.get() != null){
                                 if(nearByPlaces != null && nearByPlaces.getResults() != null){
                                     viewWeakReference.get().updateAdapterLocation();
@@ -84,7 +85,6 @@ public class NearByPlacesPresenter {
                                     viewWeakReference.get().toggleProgressBarVisibility(false);
                                 }
                             }
-                            Log.e("@@@@@@@@@@@@@@@","@@@@ Data " + nearByPlaces.getResults().size());
                         }
                     },
                     new Action1<Throwable>() {
@@ -92,7 +92,6 @@ public class NearByPlacesPresenter {
                         public void call(Throwable error) {
                             if(viewWeakReference != null && viewWeakReference.get() != null)
                                 viewWeakReference.get().toggleProgressBarVisibility(false);
-                            Log.e("@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@ error in presenter " + error.getLocalizedMessage());
                         }
                     });
 
