@@ -3,21 +3,21 @@ package com.ajdev.aroundme.model;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import lombok.Getter;
 
 /**
  * Created by Akshay.Jayakumar on 10/14/2017.
  */
 
+@Getter
 public class OpeningTime extends RealmObject {
 
     @SerializedName("open_now")
-    boolean openingHours;
+    boolean openNow;
 
-    public boolean isOpeningHours() {
-        return openingHours;
-    }
+    public OpeningTime(){}
 
-    public void setOpeningHours(boolean openingHours) {
-        this.openingHours = openingHours;
+    public OpeningTime(boolean openNow){
+        this.openNow = openNow;
     }
 }

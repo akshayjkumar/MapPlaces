@@ -62,6 +62,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
+    /* Dependencies for Lombok. Automatic generation of getters and setters */
+    provided "org.projectlombok:lombok:1.16.18"
+    apt 'org.projectlombok:lombok:1.16.18'
+
     // Dependency for Dependency Injection - Dagger2
     compile 'com.google.dagger:dagger:2.7'
     apt "com.google.dagger:dagger-compiler:2.7"
@@ -76,6 +80,18 @@ dependencies {
 
     // Test time dependencies for Unit testing JUnit
     testCompile 'junit:junit:4.12'
+
+    // Testing dependency for Mockito : Mocking objects during unit tests
+    testCompile "org.mockito:mockito-core:1.9.5"
+    // Testing dependency for Robolectric : Unit testing of android apps run in JVM
+    testCompile 'org.robolectric:robolectric:3.0'
+
+    /* Testing dependency for powerMock : A framework for mock libraries */
+    testCompile "org.powermock:powermock-module-junit4:1.6.5"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
+    testCompile "org.powermock:powermock-api-mockito:1.6.5"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
+
 
     // Exclude common dependencies to avoid conflicts
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

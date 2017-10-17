@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Akshay.Jayakumar on 10/12/2017.
  *
  */
 
+@Getter
 public class PlaceResult extends RealmObject {
 
     @SerializedName("formatted_address")
@@ -27,43 +30,15 @@ public class PlaceResult extends RealmObject {
     @SerializedName("vicinity")
     String vicinity;
 
-    public String getFormattedAddress() {
-        return formattedAddress;
-    }
+    public PlaceResult(){}
 
-    public void setFormattedAddress(String formattedAddress) {
+    public PlaceResult(String formattedAddress, String phoneNumber,
+                       String phoneNumberInternational, float rating, String vicinity){
         this.formattedAddress = formattedAddress;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getPhoneNumberInternational() {
-        return phoneNumberInternational;
-    }
-
-    public void setPhoneNumberInternational(String phoneNumberInternational) {
         this.phoneNumberInternational = phoneNumberInternational;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
         this.rating = rating;
-    }
-
-    public String getVicinity() {
-        return vicinity;
-    }
-
-    public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
     }
+
 }

@@ -77,7 +77,7 @@ public class NearByPlacesDS {
         nbpListSubscription = Observable.concat(
                 fetchNearByPlaceFromRealm(),
                 fetchNearByPlaceFromServer(location, searchQuery, type))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 /**
                  * TakeFirst will emit only when the condition is satisfied.
@@ -105,13 +105,14 @@ public class NearByPlacesDS {
     }
 
     /**
-     * Retrofit call to get near by places from Google Map APIs
-     * getNearByPlaces(String, String, String) is the API endpoint
+     * Retrofit call to get near by places from Google Map APIs.
+     * getNearByPlacesByType(location, radius, type, apikey) and
+     * getNearByPlaces(location, radius, name, apikey) are the API endpoints
      * as defined in the ConnectionAPI Interface.
      *
-     * API search can be performed by type or by name. Boolean tag determines the kind of search.
+     * API search can be performed by type or by name. Boolean type determines the kind of search.
      */
-    private Observable<NearByPlaces> fetchNearByPlaceFromServer(Location location, String search, boolean type) {
+    public Observable<NearByPlaces> fetchNearByPlaceFromServer(Location location, String search, boolean type) {
         String latLng = "0,0";
         try {
             latLng = String.format("%f,%f", location.getLatitude(), location.getLongitude());
@@ -132,8 +133,13 @@ public class NearByPlacesDS {
 
     /**
      * Retrieve NearByPlaces information from the Realm tables.
+     *
+     * This application does not require persisting data as search results vary from
+     * time to time. This is however to accommodate data base implementations,
+     * may be as future enhancement. Until retrieval from DB is implemented,
+     * this method observable emits nothing.
      */
-    private Observable<NearByPlaces> fetchNearByPlaceFromRealm() {
+    public Observable<NearByPlaces> fetchNearByPlaceFromRealm() {
         return Observable.empty();
     }
 

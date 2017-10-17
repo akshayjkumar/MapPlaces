@@ -84,7 +84,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             }catch (Exception e){}
         }
 
-        if(result.getOpeningTime() != null && result.getOpeningTime().isOpeningHours())
+        if(result.getOpeningTime() != null && result.getOpeningTime().isOpenNow())
             nearByPlaceViewHolder.pointOpenHours.setVisibility(View.VISIBLE);
         else
             nearByPlaceViewHolder.pointOpenHours.setVisibility(View.INVISIBLE);

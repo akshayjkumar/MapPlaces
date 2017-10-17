@@ -79,7 +79,7 @@ public class PlaceDetailsDS {
         placeDetailsSubscription = Observable.concat(
                 fetchPlaceDetailsFromRealm(),
                 fetchPlaceDetailsFromServer(placeID))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 /**
                  * TakeFirst will emit only when the condition is satisfied.
@@ -111,7 +111,7 @@ public class PlaceDetailsDS {
      * getPlaceDetails(String, String) is the API endpoint
      * as defined in the ConnectionAPI Interface.
      */
-    private Observable<PlaceDetails> fetchPlaceDetailsFromServer(String placeID) {
+    public Observable<PlaceDetails> fetchPlaceDetailsFromServer(String placeID) {
         return connectionAPIInterface.getPlaceDetails(placeID,
                 BuildConfig.MAPS_API_KEY).map(new Func1<PlaceDetails, PlaceDetails>() {
             @Override
@@ -124,8 +124,14 @@ public class PlaceDetailsDS {
 
     /**
      * Retrieve Place detailed information from the Realm table.
+     *
+     * This application does not require persisting data as search results vary from
+     * time to time. This is however to accommodate data base implementations,
+     * may be as future enhancement. Until retrieval from DB is implemented,
+     * this method observable emits nothing.
+     *
      */
-    private Observable<PlaceDetails> fetchPlaceDetailsFromRealm() {
+    public Observable<PlaceDetails> fetchPlaceDetailsFromRealm() {
         return Observable.empty();
     }
 

@@ -3,6 +3,8 @@ package com.ajdev.aroundme.model;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Akshay.Jayakumar on 10/12/2017.
@@ -10,6 +12,7 @@ import io.realm.RealmObject;
  * Realm object to persist geo coordinates
  */
 
+@Getter
 public class Location extends RealmObject {
 
     @SerializedName("lat")
@@ -18,19 +21,11 @@ public class Location extends RealmObject {
     @SerializedName("lng")
     Double longitude;
 
-    public Double getLatitude() {
-        return latitude;
-    }
+    public Location(){}
 
-    public void setLatitude(Double latitude) {
+    public Location(double latitude, double longitude){
         this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
 }
