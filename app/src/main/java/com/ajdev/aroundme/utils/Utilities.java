@@ -73,7 +73,6 @@ public class Utilities {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         isConnected = activeNetwork != null &&
                 activeNetwork.isConnected();
-        Log.e("~~~~~~~~~~~~~~~~~","~~~~~~~~~~~~~~~~~~~~~~~ isConnected " + isConnected);
         activity = null;
         return isConnected;
     }
