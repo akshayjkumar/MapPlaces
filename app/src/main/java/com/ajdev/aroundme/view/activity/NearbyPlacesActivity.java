@@ -1,6 +1,7 @@
 package com.ajdev.aroundme.view.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ajdev.aroundme.BaseApplication;
 import com.ajdev.aroundme.R;
@@ -163,15 +166,21 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     // Map marker click listener
     private GoogleMap.OnMarkerClickListener markerClickListener;
 
+    // Instance of network error alert dialog
+    private AlertDialog networkErrorAlterDialog = null;
+
+    // Fragment instance showing more details about the place
+    private PlaceDetailsBSFragment placeDetailsBSFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_places);
 
-        // Bind the activity for view injection. Unbind this butter knife instance after use.
+        // Bind the hostActivity for view injection. Unbind this butter knife instance after use.
         viewUnBinder =  ButterKnife.bind(this);
 
-        // Inject this activity for dependencies
+        // Inject this hostActivity for dependencies
         ((BaseApplication)getApplication()).getDependencyComponents().inject(this);
 
         // Bind the view to the presenter
@@ -201,7 +210,7 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
         if(mapFragment == null)
             mapFragment = MapFragment.newInstance();
 
-        // Add map fragment to the activity
+        // Add map fragment to the hostActivity
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.map_container_fl,mapFragment).commit();
 
@@ -284,9 +293,18 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     @Override
     protected void onPause() {
         super.onPause();
-        // Disconnect from the FLP when activity is paused
+        // Dismiss alert dialog is its showing. Not dismissing can result in window leak esception
+        if(networkErrorAlterDialog != null && networkErrorAlterDialog.isShowing())
+            networkErrorAlterDialog.dismiss();
+        networkErrorAlterDialog = null;
+        // Disconnect from the FLP when hostActivity is paused
         if (mLocationProvider != null)
             mLocationProvider.disconnect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -329,7 +347,7 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     }
 
     /**
-     * Click listener for this activity views
+     * Click listener for this hostActivity views
      * @param view
      */
     @Override
@@ -433,7 +451,7 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     /**
      * Method to enable user location on the google map.
      * Enabling user location requires permission and this is
-     * handled by the base activity.
+     * handled by the base hostActivity.
      *
      * Suppressing the permission lint warning as explicit permission check is in place
      */
@@ -614,7 +632,6 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchForPoints(false);
-                    Utilities.hideKeyboard(NearbyPlacesActivity.this);
                     return true;
                 }
                 return false;
@@ -629,11 +646,17 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
      * Search from the search bar will use Name to search rather than Tag.
      */
     private void searchForPoints(boolean type){
-        if(searchBoxET != null){
+        // Hide the keyboard
+        Utilities.hideKeyboard(this);
+        if(searchBoxET != null
+                && Utilities.isConnected(this)){
             String search = searchBoxET.getText().toString();
             if(!search.isEmpty() && location != null){
                 nearByPlacesPresenter.search(location,search.trim(),type);
-            }
+            }else
+                permissionCheck();
+        }else{
+            displayConnectivityErrorAlert();
         }
     }
 
@@ -658,9 +681,10 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     public void setSearchResultAdapter(List<Result> resultList) {
         if(searchResultAdapter != null && resultList != null) {
             searchResultAdapter.setDataList(resultList);
-            if(resultList.size() == 0)
+            if(resultList.size() == 0) {
+                Toast.makeText(getApplicationContext(), "No results found", Toast.LENGTH_LONG).show();
                 toggleQuickSearchView(true);
-            else {
+            }else {
                 toggleQuickSearchView(false);
                 plotBranches(resultList);
             }
@@ -809,14 +833,35 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
     }
 
     private void morePlaceInformation(Result result){
-        // Create new instance of the bottom sheet fragment
-        PlaceDetailsBSFragment placeDetailsBSFragment = PlaceDetailsBSFragment.newInstance();
-        // Set place result
-        placeDetailsBSFragment.setResult(result);
-        // Set user location (if any in the future use)
-        placeDetailsBSFragment.setUserLocation(location);
-        // Show the fragment
-        placeDetailsBSFragment.show(getSupportFragmentManager(), placeDetailsBSFragment.TAG);
+        if(result != null) {
+            // Create new instance of the bottom sheet fragment
+            if (placeDetailsBSFragment == null)
+                placeDetailsBSFragment = PlaceDetailsBSFragment.newInstance();
+            // Set place name
+            placeDetailsBSFragment.setPlaceName(result.getName());
+            // Set place id
+            placeDetailsBSFragment.setPlaceID(result.getPlaceID());
+            // Set place rating
+            placeDetailsBSFragment.setPlaceRating(result.getRating());
+            // Set place photo reference id
+            String photoReferenceId = null;
+            if(result.getPhotos() != null && !result.getPhotos().isEmpty())
+                photoReferenceId = (result.getPhotos().get(0) != null) ?
+                        result.getPhotos().get(0).getPhotoReference() : null;
+            placeDetailsBSFragment.setPhotoReferenceId(photoReferenceId);
+            // Set place geo coordinates
+            String geoCords = "0,0";
+            if(result.getGeometry() != null && result.getGeometry().getLocation() != null)
+                geoCords = result.getGeometry().getLocation().getLatitude() + "," +
+                        result.getGeometry().getLocation().getLongitude();
+            placeDetailsBSFragment.setPlaceGeo(geoCords);
+            // Set user location (if any in the future use)
+            placeDetailsBSFragment.setUserLocation(location);
+            // Show the fragment
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+            //fragmentManager.beginTransaction().add(placeDetailsBSFragment,PlaceDetailsBSFragment.TAG).commitAllowingStateLoss();
+            placeDetailsBSFragment.show(getSupportFragmentManager(), placeDetailsBSFragment.TAG);
+        }
     }
 
     // Plot and Display markers for respective branch locations.
@@ -890,5 +935,12 @@ public class NearbyPlacesActivity extends RuntimePermissionsActivity
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), id);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
+    }
+
+    /**
+     * Display connectivity error to the user
+     */
+    public void displayConnectivityErrorAlert(){
+        networkErrorAlterDialog = Utilities.showNetworkErrorDialog(this);
     }
 }

@@ -90,8 +90,10 @@ public class NearByPlacesPresenter {
                     new Action1<Throwable>() {
                         @Override
                         public void call(Throwable error) {
-                            if(viewWeakReference != null && viewWeakReference.get() != null)
+                            if(viewWeakReference != null && viewWeakReference.get() != null) {
                                 viewWeakReference.get().toggleProgressBarVisibility(false);
+                                viewWeakReference.get().displayConnectivityErrorAlert();
+                            }
                         }
                     });
 

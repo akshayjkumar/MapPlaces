@@ -34,5 +34,8 @@
     <string name="error_msg_call_not_supported">Calling is not supported in this device</string>
     <string name="error_msg_map_not_supported">Google maps are not supported in this device</string>
     <string name="direction_opr_nt_sptd">This operation is not supported</string>
+    <string name="network_dialog_title_error">Network Connectivity</string>
+    <string name="network_dialog_error_msg">There appears to be a problem with your internet. Please check the connection.</string>
+    <string name="network_dialog_action_dismiss_text">Dismiss</string>
 
 </resources>

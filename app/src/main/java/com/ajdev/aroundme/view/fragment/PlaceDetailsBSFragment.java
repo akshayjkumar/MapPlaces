@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
@@ -19,12 +18,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +29,6 @@ import android.widget.Toast;
 import com.ajdev.aroundme.BaseApplication;
 import com.ajdev.aroundme.R;
 import com.ajdev.aroundme.model.PlaceResult;
-import com.ajdev.aroundme.model.Result;
 import com.ajdev.aroundme.presenter.PlaceDetailsPresenter;
 import com.ajdev.aroundme.utils.FontManager;
 import com.ajdev.aroundme.utils.Utilities;
@@ -46,11 +41,14 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Akshay.Jayakumar on 10/12/2017.
  */
-
+@Getter
+@Setter
 public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
 
     @Inject
@@ -86,11 +84,12 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
     // Tag for the fragment
     public static final String TAG = PlaceDetailsBSFragment.class.getName();
 
-    // String key for place id bundle extra
+    // String keys string literals in bundle extra
     public static final String KEY_PLACE_ID = "place_id";
-
-    // Place id
-    private String placeID = "";
+    public static final String KEY_PLACE_NAME = "place_name";
+    public static final String KEY_PLACE_RATING = "place_rating";
+    public static final String KEY_PLACE_PHOTO_REF_ID = "place_photo_ref_id";
+    public static final String KEY_PLACE_GEO = "place_latitude_longitude";
 
     // Bottoms sheet interaction behavior for the view
     private BottomSheetBehavior bottomSheetBehavior;
@@ -101,16 +100,28 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
     // Butter knife un-binder reference
     private Unbinder viewUnBinder;
 
-    // Host activity instance
-    private Activity activity;
+    // Host hostActivity instance
+    private Activity hostActivity;
 
-    // Instance of Result object containing basic place information
-    private Result result;
+    // Place id
+    private String placeID = "";
+
+    // Place geo coordinates
+    private String placeGeo = "";
+
+    // Place name
+    private String placeName;
+
+    // Photo reference id for the place
+    private String photoReferenceId;
+
+    // Rating given for the place
+    private float placeRating;
 
     // Root view instance
     private View contentView;
 
-    // Listener for custom events in bottom sheet. To be implemented by hosting activity
+    // Listener for custom events in bottom sheet. To be implemented by hosting hostActivity
     private BottomSheetListener bListener;
 
     //Click listeners for interactive actions
@@ -135,12 +146,26 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get hosting activity
-        activity = getActivity();
+        setRetainInstance(true);
+        if(savedInstanceState != null){
+            Bundle stateInstance = savedInstanceState.getBundle(TAG);
+            setPlaceName(stateInstance.getString(KEY_PLACE_NAME));
+            setPlaceID(stateInstance.getString(KEY_PLACE_ID));
+            setPhotoReferenceId(stateInstance.getString(KEY_PLACE_PHOTO_REF_ID));
+            setPlaceRating(stateInstance.getFloat(KEY_PLACE_RATING));
+            setPlaceGeo(stateInstance.getString(KEY_PLACE_GEO));
+        }
+        // Get hosting hostActivity
+        hostActivity = getActivity();
         // Inject this fragment for dependencies
-        ((BaseApplication)activity.getApplication()).getDependencyComponents().inject(this);
+        ((BaseApplication) hostActivity.getApplication()).getDependencyComponents().inject(this);
         // Bind this view with the presenter
         placeDetailsPresenter.bindView(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -155,7 +180,7 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
         // Set dialog content view
         contentView = View.inflate(getContext(), R.layout.fragment_place_details_bs, null);
         dialog.setContentView(contentView);
-        // Bind the activity for view injection. Unbind this butter knife instance after use.
+        // Bind the hostActivity for view injection. Unbind this butter knife instance after use.
         viewUnBinder =  ButterKnife.bind(this,contentView);
         // Specify the bottom sheet behavior for the dialog
         CoordinatorLayout.LayoutParams layoutParams =
@@ -179,8 +204,16 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onSaveInstanceState(Bundle outState) {
+        Bundle stateInstance = new Bundle();
+        stateInstance.putString(KEY_PLACE_ID,getPlaceID());
+        stateInstance.putString(KEY_PLACE_GEO,getPlaceGeo());
+        stateInstance.putString(KEY_PLACE_NAME,getPlaceName());
+        stateInstance.putString(KEY_PLACE_PHOTO_REF_ID,getPhotoReferenceId());
+        stateInstance.putFloat(KEY_PLACE_RATING,getPlaceRating());
+        // Save the state
+        outState.putBundle(TAG,stateInstance);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -208,7 +241,7 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
         fabClickListener = null;
         mBottomSheetBehaviorCallback = null;
         FontManager.clearFontCache();
-        activity = null;
+        hostActivity = null;
         super.onDetach();
     }
 
@@ -221,7 +254,8 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
          * Perform API search to fetch more details about the place based on the place_id
          * from Google Places API
          **/
-        placeDetailsPresenter.search(result.getPlaceID());
+        if(getPlaceID() != null && !getPlaceID().isEmpty())
+            placeDetailsPresenter.search(getPlaceID());
     }
 
     /**
@@ -239,39 +273,37 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
         if(directionFab != null)
             directionFab.setOnClickListener(fabClickListener);
         // Initialize font manager for Font Awesome
-        Typeface iconFont = FontManager.getTypeface(FontManager.FONTAWESOME, activity.getApplicationContext());
+        Typeface iconFont = FontManager.getTypeface(FontManager.FONTAWESOME, hostActivity.getApplicationContext());
         // Apply typeface for font awesome to the view
         FontManager.convertToFontAwesome(placeStarRatingTV, iconFont);
         /**
-         * Populate basic place information carried forward from previous search activity.
+         * Populate basic place information carried forward from previous search hostActivity.
          * Show name of the place. Display available rating
          */
-        if(result != null) {
-            // Set place name
-            if (placeNameTV != null) {
-                placeNameTV.setText(result.getName());
+        // Set place name
+        if (placeNameTV != null && getPlaceName() != null && !getPlaceName().isEmpty()) {
+            placeNameTV.setText(getPlaceName());
+        }
+        // Populate ratings and star ratings
+        try {
+            if (placeRatingTV != null && getPlaceRating() >= 0) {
+                float ratings = getPlaceRating();
+                placeRatingTV.setText(String.format("%.1f", ratings));
+                placeStarRatingTV.setText(FontManager.createVisualRatings(ratings));
             }
-            // Populate ratings and star ratings
-            try {
-                if (placeRatingTV != null && result.getRating() >= 0) {
-                    float ratings = result.getRating();
-                    placeRatingTV.setText(String.format("%.1f", ratings));
-                    placeStarRatingTV.setText(FontManager.createVisualRatings(ratings));
-                }
-            }catch (Exception e){
-                placeRatingTV.setText(String.format("%d", 0));
-                placeStarRatingTV.setText(FontManager.createVisualRatings(0));
+        }catch (Exception e){
+            placeRatingTV.setText(String.format("%d", 0));
+            placeStarRatingTV.setText(FontManager.createVisualRatings(0));
 
-            }// Implicit locale can at time result in exception
-            // Display place image from Google place APIs.
-            if(placeDetailsImageIV != null && result.getPhotos() != null && !result.getPhotos().isEmpty()){
-                Picasso.with(placeDetailsImageIV.getContext())
-                        .load(Utilities.makePhotoUrl(result.getPhotos().get(0).getPhotoReference()))
-                        .error(R.drawable.drawable_image_not_available)
-                        .into(placeDetailsImageIV);
-            }else{
+        }// Implicit locale can at time result in exception
+        // Display place image from Google place APIs.
+        if(placeDetailsImageIV != null && getPhotoReferenceId()!= null && !getPhotoReferenceId().isEmpty()){
+            Picasso.with(placeDetailsImageIV.getContext())
+                    .load(Utilities.makePhotoUrl(getPhotoReferenceId()))
+                    .error(R.drawable.drawable_image_not_available)
+                    .into(placeDetailsImageIV);
+        }else{
 
-            }
         }
     }
 
@@ -282,21 +314,19 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
         fabClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (result != null && result.getGeometry() != null
-                        && result.getGeometry().getLocation() != null) {
+                if (getPlaceGeo() != null && !getPlaceGeo().isEmpty()) {
                     Uri geoIntent = Uri.parse("https://maps.google.com/maps?f=d&hl=en&daddr="
-                            + result.getGeometry().getLocation().getLatitude()
-                            + "," + result.getGeometry().getLocation().getLongitude());
+                            + getPlaceGeo());
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, geoIntent);
-                    if (mapIntent.resolveActivity(activity.getPackageManager()) != null) {
+                    if (mapIntent.resolveActivity(hostActivity.getPackageManager()) != null) {
                         startActivity(mapIntent);
                     } else {
-                        Toast.makeText(activity.getApplicationContext()
+                        Toast.makeText(hostActivity.getApplicationContext()
                                 , R.string.error_msg_map_not_supported
                                 , Toast.LENGTH_SHORT).show();
                     }
                 } else
-                    Toast.makeText(activity.getApplicationContext()
+                    Toast.makeText(hostActivity.getApplicationContext()
                             , getString(R.string.direction_opr_nt_sptd)
                             , Toast.LENGTH_SHORT).show();
             }
@@ -360,7 +390,7 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
      * with bottom sheet
      */
     private void initializeBottomSheetCallback(){
-        final float newMax = Utilities.convertDPToPixels(activity.getApplication(),210);
+        final float newMax = Utilities.convertDPToPixels(hostActivity.getApplication(),210);
         mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -378,10 +408,6 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
                 }
             }
         };
-    }
-
-    public void setResult(Result result){
-        this.result = result;
     }
 
     /**
@@ -430,4 +456,5 @@ public class PlaceDetailsBSFragment extends BottomSheetDialogFragment {
     public void setUserLocation(Location userLocation) {
         this.userLocation = userLocation;
     }
+
 }

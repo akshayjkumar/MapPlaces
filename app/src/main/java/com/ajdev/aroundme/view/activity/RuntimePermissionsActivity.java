@@ -84,19 +84,21 @@ public abstract class RuntimePermissionsActivity extends AppCompatActivity {
             txtMessage.setText(messages[0]);
             mBuilder.setView(customView);
             mBuilder.setCancelable(false);
-            mBuilder.setPositiveButton(R.string.permission_action_enable, new DialogInterface.OnClickListener() {
+            DialogInterface.OnClickListener positiveAction = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(activity,permissionRequests,requestCodes[0]);
                     dialogInterface.dismiss();
                 }
-            });
-            mBuilder.setNegativeButton(R.string.permission_action_dismiss, new DialogInterface.OnClickListener() {
+            };
+            DialogInterface.OnClickListener negativeAction = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
                 }
-            });
+            };
+            mBuilder.setPositiveButton(R.string.permission_action_enable, positiveAction);
+            mBuilder.setNegativeButton(R.string.permission_action_dismiss, negativeAction);
             mBuilder.show();
         } catch (Exception ex) {
             ex.getLocalizedMessage();

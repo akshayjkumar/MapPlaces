@@ -111,7 +111,7 @@ public class FusedLocationProvider implements
          *
          * Google play service has in-build mechanism to handle most of the errors related to
          * using its services. This will try to find for available resolution via an intent passed
-         * to Google play services which will start play service activity to resolve issue.
+         * to Google play services which will start play service hostActivity to resolve issue.
          *
          */
         if (connectionResult.hasResolution() && mContext instanceof Activity) {
