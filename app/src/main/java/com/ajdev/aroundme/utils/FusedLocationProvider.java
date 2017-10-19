@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+import com.ajdev.aroundme.view.activity.RuntimePermissionsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -92,7 +93,9 @@ public class FusedLocationProvider implements
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            try {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            }catch (Exception e){}
         }
         else {
             if(mLocationCallback != null)
