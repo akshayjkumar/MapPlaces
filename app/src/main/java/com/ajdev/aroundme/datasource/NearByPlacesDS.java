@@ -98,7 +98,6 @@ public class NearByPlacesDS {
                     @Override
                     public void call(Throwable error) {
                         NearByPlacesDS.this.nbpListPublishSubject.onError(error);
-                        Log.e("@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@ NearByPlacesDS " + error.getLocalizedMessage());
                     }
                 });
 

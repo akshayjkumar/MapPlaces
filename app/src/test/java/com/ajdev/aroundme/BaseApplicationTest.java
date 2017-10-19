@@ -16,7 +16,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Akshay.Jayakumar on 10/16/2017.
  *
- * This is an application base class. ONLY FOR TESTING
+ * This is an application base class. User for Robolectric unit testing.
+ *
+ * ONLY FOR TESTING
  */
 
 public class BaseApplicationTest extends Application{

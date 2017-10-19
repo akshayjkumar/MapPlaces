@@ -100,7 +100,6 @@ public class PlaceDetailsDS {
                     @Override
                     public void call(Throwable error) {
                         PlaceDetailsDS.this.placeDetailsPublishSubject.onError(error);
-                        Log.e("@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@ Place details DS " + error.getLocalizedMessage());
                     }
                 });
 

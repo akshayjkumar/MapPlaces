@@ -85,13 +85,11 @@ public class PlaceDetailsPresenter {
                                     && placeDetails.getResult() != null){
                                 viewWeakReference.get().updateData(placeDetails.getResult());
                             }
-                            Log.e("@@@@@@@@@@@@@@@","@@@@ Data " + placeDetails.getResult().getFormattedAddress());
                         }
                     },
                     new Action1<Throwable>() {
                         @Override
                         public void call(Throwable error) {
-                            Log.e("@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@ error in presenter " + error.getLocalizedMessage());
                         }
                     });
 
